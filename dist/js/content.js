@@ -3383,15 +3383,19 @@ class SaveData {
                         if (block.type === 'p') {
                             // 在每个段落后面添加换行
                             text += block.text + '\r\n';
-                        }
-                        else if (block.type === 'header') {
+                        } else if (block.type === 'header') {
                             // 对于标题文本，在其前后添加换行，以便和其他文本之间留出一定空白
                             text += `\r\n${block.text}\r\n\r\n`;
                         }
-                    }
-                    else if (block.text === '') {
+                    } else if (block.text === '') {
                         // 空字符串在网页上渲染出来的表现是一个额外的空行，用于隔开段落。所以这里额外添加一个换行
                         text += '\r\n';
+                    }
+                } else if (block.type === 'image') {
+                    // imgタグをtextに追加
+                    const imageData = data.body.imageMap[block.imageId];
+                    if (imageData) {
+                        text += `<img src="${imageData.originalUrl}" alt="${imageData.id}">\r\n`;
                     }
                 }
             }
